@@ -7,6 +7,7 @@ var Ball = (function(){
 	var sizeX = 10;
 	var sizeY = 10;
 	var destroyed = false;
+	var rawSpeed = 0;
 		
 	var getX = function() {
 		return x;
@@ -28,6 +29,13 @@ var Ball = (function(){
 		velocityY = setVelocityY;
 	};
 	
+	var getRawSpeed = function() {
+		return rawSpeed;
+	};
+	var setRawSpeed = function(setRawSpeed) {
+		rawSpeed = setRawSpeed;
+	};
+	
 	var getSizeX = function() {
 		return sizeX;
 	};
@@ -42,9 +50,10 @@ var Ball = (function(){
 	var respawn = function() {
 		x = 400;
 		y = 330;
-		velocityX = 0.1;
-		velocityY = 3;
+		velocityX = 0.05;
+		velocityY = 1.5;
 		destroyed = false;
+		rawSpeed = 2.5;
 	};
 	
 	var draw = function(graphics) {
@@ -118,6 +127,8 @@ var Ball = (function(){
 		update: update,
 		draw: draw,
 		respawn: respawn,
+		getRawSpeed: getRawSpeed,
+		setRawSpeed: setRawSpeed,
 	};
 	return self;
 })();

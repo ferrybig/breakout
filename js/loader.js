@@ -6,11 +6,5 @@
 		
 		console.log("Initizing...");
 		Canvas.init(document.getElementById('breakout'));
-		
-		console.log("Loading level...");
-		Breakout.loadLevel(Level.defaultLevel());
-		
-		console.log("Starting level...");
-		Breakout.start();
 	};
 }())

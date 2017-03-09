@@ -9,7 +9,7 @@ var Paddle = (function(){
 	var sizeY = 10;
 	
 	// Ball speed
-	var bounceSpeed = 9;
+	var bounceSpeed = 7;
 	
 	// This will be set to undefined to indicate that the last mouse position is used already
 	var mouseX = undefined;
@@ -94,8 +94,10 @@ var Paddle = (function(){
 		var normalX = realX / length;
 		
 		// Bring bal up to target speed
-		normalY *= bounceSpeed;
-		normalX *= bounceSpeed;
+		var targetBounceSpeed = (Ball.getRawSpeed() * 99 + bounceSpeed) / 100;
+		normalY *= targetBounceSpeed;
+		normalX *= targetBounceSpeed;
+		Ball.setRawSpeed(targetBounceSpeed)
 		
 		// Make ball bounce back to the top, instead of the button (negative Y = top)
 		normalY *= -1;

@@ -4,8 +4,9 @@ var Canvas = (function(){
 	var canvas = undefined;
 	var graphics = undefined;
 	var lastFrameTime = undefined;
-	var targetPhysicsRate = 1000 / 30; // Run physics at 30 TPS
+	var targetPhysicsRate = 1000 / 60; // Run physics at 60 TPS
 	var targetFrameRate = 1000 / 60; // Run frames at 60 FPS
+	var mouseDown = false;
 
 	/**
 	 * Using requestAnimationFrame instead of a simple `setTimeout` allows us to
@@ -24,6 +25,7 @@ var Canvas = (function(){
 	 */
 	var _update = function() {
 		Breakout.update();
+		mouseDown = false;
 	};
 	
 	/**
@@ -41,6 +43,16 @@ var Canvas = (function(){
 		var lastDownTarget = canvas;
 		document.addEventListener('mousedown', function(event) {
 			lastDownTarget = event.target;
+			mouseDown = true;
+			var mouseX, mouseY;
+			if(event.offsetX) {
+				mouseX = event.offsetX;
+				mouseY = event.offsetY;
+			} else if(event.layerX) {
+				mouseX = event.layerX;
+				mouseY = event.layerY;
+			}
+			Menu.mouseUpdate(mouseX, mouseY, mouseDown);
 		}, false);
 		document.addEventListener('keydown', function(event) {
 			if(lastDownTarget == canvas) {
@@ -49,6 +61,8 @@ var Canvas = (function(){
 					Paddle.setKeyboardDirection(15);
 				} else if(code == 37) {
 					Paddle.setKeyboardDirection(-15);
+				} else if(code == 27) {
+					Menu.pauseGame();
 				}
 			}
 		}, false);
@@ -60,20 +74,23 @@ var Canvas = (function(){
 		}, false);
 		document.addEventListener('mousemove', function(event) {
 			if(canvas == event.target) {
-				var mouseX;
+				var mouseX, mouseY;
 				if(event.offsetX) {
 					mouseX = event.offsetX;
+					mouseY = event.offsetY;
 				} else if(event.layerX) {
 					mouseX = event.layerX;
+					mouseY = event.layerY;
 				}
 				Paddle.setMouseX(mouseX);
+				Menu.mouseUpdate(mouseX, mouseY, mouseDown);
 			}
 		}, false);
 		
 		
 		var tick = function() {
 			var timeInMs = Date.now();
-			if(lastFrameTime === undefined || timeInMs - lastFrameTime > 200) {
+			if(lastFrameTime === undefined || timeInMs - lastFrameTime > 400) {
 				// Either missed to many frames, or we are first starting
 				// Adjust the frames by a few MS to prevent clock skew from messing with the time
 				lastFrameTime = timeInMs - targetPhysicsRate / 10;

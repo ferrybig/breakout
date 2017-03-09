@@ -13,21 +13,21 @@ var Breakout = (function(){
 	
 	var draw = function(graphics) {
 		//console.log("Draw!");
-		if(started) {
-			graphics.clearRect(0, 0, graphics.canvas.width, graphics.canvas.height);
-			
-			graphics.strokeStyle = "#224433";
-			graphics.fillStyle = "#224433";
-			Paddle.draw(graphics);
-			
-			graphics.strokeStyle = "#332244";
-			graphics.fillStyle = "#332244";
-			Bricks.draw(graphics);
-			
-			graphics.strokeStyle = "#443322";
-			graphics.fillStyle = "#443322";
-			Ball.draw(graphics);
-		}
+		graphics.clearRect(0, 0, graphics.canvas.width, graphics.canvas.height);
+		
+		graphics.strokeStyle = "#224433";
+		graphics.fillStyle = "#224433";
+		Paddle.draw(graphics);
+		
+		graphics.strokeStyle = "#332244";
+		graphics.fillStyle = "#332244";
+		Bricks.draw(graphics);
+		
+		graphics.strokeStyle = "#443322";
+		graphics.fillStyle = "#443322";
+		Ball.draw(graphics);
+		
+		Menu.draw(graphics);
 		//console.log("Draw done!");
 	};
 	
@@ -40,6 +40,7 @@ var Breakout = (function(){
 			
 			Ball.update();
 		}
+		Menu.update();
 		//console.log("Update done!");
 	};
 	
