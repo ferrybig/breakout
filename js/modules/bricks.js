@@ -10,7 +10,7 @@ var Bricks = (function(){
 		}
 	};
 	
-	var addBrick = function(x, y) {
+	var addBrick = function(x, y, color) {
 		var brick = {
 			key: bricks.length,
 			getX: function(){
@@ -23,7 +23,10 @@ var Bricks = (function(){
 				return 20;
 			},
 			getSizeY: function(){
-				return 15;
+				return 10;
+			},
+			getColor: function(){
+				return color
 			},
 			registerImpact: function() {
 				console.log(x, y, 'Brick destroyed!');
@@ -36,6 +39,7 @@ var Bricks = (function(){
 	
 	var draw = function(graphics) {
 		forEach(function(brick) {
+			graphics.fillStyle = brick.getColor();
 			graphics.fillRect(brick.getX() - brick.getSizeX() + 1, brick.getY() - brick.getSizeY() + 1,
 				brick.getSizeX() * 2 - 2, brick.getSizeY() * 2 - 2);
 		});

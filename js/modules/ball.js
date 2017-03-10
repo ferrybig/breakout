@@ -49,7 +49,7 @@ var Ball = (function(){
 	
 	var respawn = function() {
 		x = 400;
-		y = 330;
+		y = 430;
 		velocityX = 0.05;
 		velocityY = 1.5;
 		destroyed = false;

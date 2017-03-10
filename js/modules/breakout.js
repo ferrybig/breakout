@@ -57,7 +57,7 @@ var Breakout = (function(){
 		Ball.respawn();
 		Paddle.respawn();
 		for(var i = 0; i < level.bricks.length; i++) {
-			Bricks.addBrick(level.bricks[i].x, level.bricks[i].y);
+			Bricks.addBrick(level.bricks[i].x, level.bricks[i].y, level.bricks[i].color);
 		}
 	};
 	
