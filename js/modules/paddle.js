@@ -17,6 +17,9 @@ var Paddle = (function(){
 	// Speed of the keyboard presses
 	var keyboardDirection = 0;
 	var keyBoardSmooth = 0;
+	
+	var holdingBall = 0;
+	var clickedMouse = false;
 		
 	var getX = function() {
 		return x;
@@ -32,28 +35,35 @@ var Paddle = (function(){
 		return sizeY;
 	};
 	
-	var setMouseX = function(setMouseX) {
-		mouseX = setMouseX;
+	var setMouse = function(setMouse, hasClickedMouse) {
+		mouseX = setMouse;
+		clickedMouse = hasClickedMouse;
 	};
 	
 	var setKeyboardDirection = function(setKeyboardDirection) {
 		keyboardDirection = setKeyboardDirection;
 	};
+	
+	var holdBall = function() {
+		holdingBall = 0;
+	};
 
 	var draw = function(graphics) {
+		graphics.strokeStyle = "#224433";
+		graphics.fillStyle = "#224433";
 		graphics.beginPath();
 		
 		graphics.fillRect(x - sizeX, y, sizeX * 2, sizeY * 2);
 		
 		graphics.moveTo(x - sizeX, y);
-		graphics.bezierCurveTo(x - sizeX, y - sizeY, x + sizeX, y - sizeY, x + sizeX, y);
+		graphics.bezierCurveTo(x - sizeX, y - sizeY * 1.5, x + sizeX, y - sizeY * 1.5, x + sizeX, y);
 		
 		graphics.closePath();
 		graphics.fill();
 	};
 	
 	var update = function() {
-		if(mouseX !== undefined) {
+		if(mouseX !== undefined && keyboardDirection === 0) {
 			// Mouse mode
 			keyboardDirection = 0;
 			var change = mouseX - x;
@@ -77,9 +87,28 @@ var Paddle = (function(){
 		if(x + sizeX > Breakout.getSizeX()) {
 			x = Breakout.getSizeX() - sizeX;
 		}
+		// Ball holding mode
+		if(holdingBall !== undefined) {
+			if (clickedMouse) {
+				Ball.setVelocityX(0.1);
+				Ball.setVelocityY(0);
+				registerImpact();
+				holdingBall = undefined;
+			} else {
+				var targetX = getX() - holdingBall;
+				var targetY = getY() - getSizeY() - Ball.getSizeY() - 1;
+				Ball.setVelocityX(targetX - Ball.getX());
+				Ball.setVelocityY(targetY - Ball.getY());
+			}
+		}
+		clickedMouse = false;
 	};
 	
 	var registerImpact = function() {
+		console.log("Paddle impact!");
+		if(Powerup.isActivated("holdball") && holdingBall === undefined) {
+			holdingBall = getX() - Ball.getX();
+		}
 		var impactX = Ball.getX() - getX();
 		var orginalY = Ball.getVelocityY();
 		var orginalX = Ball.getVelocityX();
@@ -97,7 +126,7 @@ var Paddle = (function(){
 		var targetBounceSpeed = (Ball.getRawSpeed() * 99 + bounceSpeed) / 100;
 		normalY *= targetBounceSpeed;
 		normalX *= targetBounceSpeed;
-		Ball.setRawSpeed(targetBounceSpeed)
+		Ball.setRawSpeed(targetBounceSpeed);
 		
 		// Make ball bounce back to the top, instead of the button (negative Y = top)
 		normalY *= -1;
@@ -110,6 +139,8 @@ var Paddle = (function(){
 		x = 300;
 		y = 550;
 		keyboardDirection = 0;
+		clickedMouse = false;
+		holdBall();
 	};
 	
 	var self = {
@@ -120,9 +151,10 @@ var Paddle = (function(){
 		update: update,
 		registerImpact: registerImpact,
 		draw: draw,
-		setMouseX: setMouseX,
+		setMouse: setMouse,
 		setKeyboardDirection: setKeyboardDirection,
 		respawn: respawn,
+		holdBall: holdBall,
 	};
 	return self;
 })();

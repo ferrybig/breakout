@@ -13,24 +13,20 @@ var Breakout = (function(){
 	
 	var draw = function(graphics) {
 		//console.log("Draw!");
-		
+
 		graphics.fillStyle = "#000";
 		graphics.fillRect(0, 0, graphics.canvas.width, graphics.canvas.height);
-		
-		graphics.strokeStyle = "#224433";
-		graphics.fillStyle = "#224433";
+
 		Paddle.draw(graphics);
-		
+
 		Bricks.draw(graphics);
-		
+
 		Particle.draw(graphics);
 
-		graphics.strokeStyle = "#443322";
-		graphics.fillStyle = "#443322";
 		Ball.draw(graphics);
-		
+
 		Score.draw(graphics);
-		
+
 		Menu.draw(graphics);
 		//console.log("Draw done!");
 	};

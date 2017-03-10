@@ -36,6 +36,10 @@ var Ball = (function(){
 		rawSpeed = setRawSpeed;
 	};
 	
+	var setBallSize = function(setBallSize) {
+		sizeX = sizeY = setBallSize;
+	};
+	
 	var getSizeX = function() {
 		return sizeX;
 	};
@@ -57,6 +61,8 @@ var Ball = (function(){
 	};
 	
 	var draw = function(graphics) {
+		graphics.strokeStyle = "#443322";
+		graphics.fillStyle = "#443322";
 		graphics.beginPath();
 		graphics.moveTo(x, y);
 		
@@ -78,6 +84,7 @@ var Ball = (function(){
 		y += velocityY;
 		
 		// Handle collisions with bricks
+		
 		var initialVelocityX = velocityX;
 		var initialVelocityY = velocityY;
 		Bricks.forEach(function(brick){
@@ -85,10 +92,15 @@ var Ball = (function(){
 			var dY = Math.abs(brick.getY() - y) - brick.getSizeY() - sizeY;
 			if(dX < 0 && dY < 0) {
 				brick.registerImpact();
-				if(dX < dY) {
-					velocityY = -initialVelocityY;
-				} else {
-					velocityX = -initialVelocityX;
+				if(!Powerup.isActivated("flythru")) {
+					if(Math.abs(dX - dY) < 5) {
+						velocityY = -initialVelocityY;
+						velocityX = -initialVelocityX;
+					} else if(dX < dY) {
+						velocityY = -initialVelocityY;
+					} else {
+						velocityX = -initialVelocityX;
+					}
 				}
 			}
 		});
@@ -131,6 +143,7 @@ var Ball = (function(){
 		respawn: respawn,
 		getRawSpeed: getRawSpeed,
 		setRawSpeed: setRawSpeed,
+		setBallSize: setBallSize,
 	};
 	return self;
 })();

@@ -118,6 +118,7 @@ var Menu = (function(){
 		text: 'New game',
 	});
 	
+	
 	var self = {
 		mouseUpdate: mouseUpdate,
 		pauseGame: pauseGame,

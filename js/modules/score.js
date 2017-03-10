@@ -57,6 +57,7 @@ var Score = (function() {
 	var ballDestroyed = function() {
 		if(lives > 0) {
 			Ball.respawn();
+			Paddle.respawn();
 			lives--;
 		}
 	};

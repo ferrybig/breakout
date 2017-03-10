@@ -24,8 +24,8 @@ var Level = (function(){
 	};
 		
 	var defaultLevel = function() {
-		return _generateLevel("default", function(x, y){
-			return true;
+		return _generateLevel("default", function(x, y, nx, ny){
+			return Math.abs(Math.abs(-ny +0.5 - Math.abs(nx)) - 0.5) < 0.34;
 		});
 	};
 	var rowsLevel = function() {

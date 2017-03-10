@@ -52,6 +52,7 @@ var Canvas = (function(){
 				mouseX = event.layerX;
 				mouseY = event.layerY;
 			}
+			Paddle.setMouse(mouseX, mouseDown);
 			Menu.mouseUpdate(mouseX, mouseY, mouseDown);
 		}, false);
 		document.addEventListener('keydown', function(event) {
@@ -82,7 +83,7 @@ var Canvas = (function(){
 					mouseX = event.layerX;
 					mouseY = event.layerY;
 				}
-				Paddle.setMouseX(mouseX);
+				Paddle.setMouse(mouseX, mouseDown);
 				Menu.mouseUpdate(mouseX, mouseY, mouseDown);
 			}
 		}, false);
