@@ -21,10 +21,10 @@ var Breakout = (function(){
 		graphics.fillStyle = "#224433";
 		Paddle.draw(graphics);
 		
-		graphics.strokeStyle = "#332244";
-		graphics.fillStyle = "#332244";
 		Bricks.draw(graphics);
 		
+		Particle.draw(graphics);
+
 		graphics.strokeStyle = "#443322";
 		graphics.fillStyle = "#443322";
 		Ball.draw(graphics);
@@ -39,11 +39,13 @@ var Breakout = (function(){
 		//console.log("Update!");
 		if(started) {
 			Paddle.update();
-			
+
 			Bricks.update();
-			
+
+			Particle.update();
+
 			Ball.update();
-			
+
 			Score.update();
 		}
 		Menu.update();

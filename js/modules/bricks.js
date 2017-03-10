@@ -31,6 +31,7 @@ var Bricks = (function(){
 			registerImpact: function() {
 				_removeBrick(brick.key);
 				Score.addScore(100);
+				Particle.addBrickParticle(x, y, 20, 10, color);
 			}
 		}
 		bricks.push(brick);
