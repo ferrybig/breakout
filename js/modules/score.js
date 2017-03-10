@@ -4,7 +4,7 @@ var Score = (function() {
 	var lives = 3;
 	
 	var addScore = function(points) {
-		pointsCounter += points;
+		pointsCounter += Math.round(points);
 	};
 	
 	var directUpdateScore = function() {
