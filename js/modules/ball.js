@@ -70,6 +70,9 @@ var Ball = (function(){
 	};
 	
 	var update = function() {
+		if(destroyed)
+			return;
+		
 		// Update position
 		x += velocityX;
 		y += velocityY;
@@ -108,8 +111,7 @@ var Ball = (function(){
 		}
 		if(y + sizeY > Breakout.getSizeY() && velocityY > 0) {
 			destroyed = true;
-			console.log("TODO: remove life here");
-			respawn();
+			Score.ballDestroyed();
 		}
 	};
 	

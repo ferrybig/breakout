@@ -13,7 +13,9 @@ var Breakout = (function(){
 	
 	var draw = function(graphics) {
 		//console.log("Draw!");
-		graphics.clearRect(0, 0, graphics.canvas.width, graphics.canvas.height);
+		
+		graphics.fillStyle = "#000";
+		graphics.fillRect(0, 0, graphics.canvas.width, graphics.canvas.height);
 		
 		graphics.strokeStyle = "#224433";
 		graphics.fillStyle = "#224433";
@@ -27,6 +29,8 @@ var Breakout = (function(){
 		graphics.fillStyle = "#443322";
 		Ball.draw(graphics);
 		
+		Score.draw(graphics);
+		
 		Menu.draw(graphics);
 		//console.log("Draw done!");
 	};
@@ -39,6 +43,8 @@ var Breakout = (function(){
 			Bricks.update();
 			
 			Ball.update();
+			
+			Score.update();
 		}
 		Menu.update();
 		//console.log("Update done!");

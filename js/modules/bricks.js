@@ -26,11 +26,11 @@ var Bricks = (function(){
 				return 10;
 			},
 			getColor: function(){
-				return color
+				return color;
 			},
 			registerImpact: function() {
-				console.log(x, y, 'Brick destroyed!');
 				_removeBrick(brick.key);
+				Score.addScore(100);
 			}
 		}
 		bricks.push(brick);

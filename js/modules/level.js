@@ -12,7 +12,6 @@ var Level = (function(){
 					if(result === true) {
 						result = '#' + (0x800000 + x * 0x100 * 12 + y * 12).toString(16);
 					}
-					console.log(x, y, result);
 					level.bricks.push({
 						x: x * 40 + 20,
 						y: y * 20 + 10,
