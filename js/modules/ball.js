@@ -65,12 +65,13 @@ var Ball = (function(){
 		graphics.fillStyle = "#443322";
 		graphics.beginPath();
 		graphics.moveTo(x, y);
-		
 		graphics.arc(x, y, (sizeX + sizeY) / 2, 0, Math.PI * 2, true);
+		graphics.closePath();
 		graphics.stroke();
-		
+
+		graphics.beginPath();
+		graphics.moveTo(x, y);
 		graphics.arc(x, y, (sizeX + sizeY) / 2.5, 0, Math.PI * 2, true);
-		
 		graphics.closePath();
 		graphics.fill();
 	};
