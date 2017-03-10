@@ -61,8 +61,8 @@ var Ball = (function(){
 	};
 	
 	var draw = function(graphics) {
-		graphics.strokeStyle = "#443322";
-		graphics.fillStyle = "#443322";
+		graphics.strokeStyle = "#CCBBAA";
+		graphics.fillStyle = "#CCBBAA";
 		graphics.beginPath();
 		graphics.moveTo(x, y);
 		graphics.arc(x, y, (sizeX + sizeY) / 2, 0, Math.PI * 2, true);
@@ -85,26 +85,46 @@ var Ball = (function(){
 		y += velocityY;
 		
 		// Handle collisions with bricks
-		
+		var appendixDeletions = [];
 		var initialVelocityX = velocityX;
 		var initialVelocityY = velocityY;
+		var collisions = 0;
 		Bricks.forEach(function(brick){
 			var dX = Math.abs(brick.getX() - x) - brick.getSizeX() - sizeX;
 			var dY = Math.abs(brick.getY() - y) - brick.getSizeY() - sizeY;
 			if(dX < 0 && dY < 0) {
 				brick.registerImpact();
+				collisions++;
 				if(!Powerup.isActivated("flythru")) {
+					var updateX = false, updateY = false;
 					if(Math.abs(dX - dY) < 5) {
-						velocityY = -initialVelocityY;
-						velocityX = -initialVelocityX;
+						updateX = true;
+						updateY = true;
 					} else if(dX < dY) {
-						velocityY = -initialVelocityY;
+						updateY = true
 					} else {
+						updateX = true;
+					}
+					if(updateY && !((initialVelocityY < 0) ^ (brick.getY() - y < 0))) {
+						velocityY = -initialVelocityY;
+					}
+					if(updateX && !((initialVelocityX < 0) ^ (brick.getX() - x < 0))) {
 						velocityX = -initialVelocityX;
 					}
 				}
+			} else if (Powerup.isActivated("exploding") && dX < 20 && dY < 20) {
+				appendixDeletions.push(brick);
 			}
 		});
+		if(collisions > 0) {
+			if(Powerup.isActivated("exploding")) {
+				Particle.addExplodingParticle(x, y, 4);
+			Score.addScore(Math.pow(1.1, collisions) - 1.1);}
+			for(var i = 0; i < appendixDeletions.length; i++) {
+				appendixDeletions[i].registerImpact();
+				collisions++;
+			}
+		}
 		// Handle paddle impact
 		var dX = Math.abs(Paddle.getX() - x) - Paddle.getSizeX() - sizeX;
 		var dY = Math.abs(Paddle.getY() - y) - Paddle.getSizeY() - sizeY;
