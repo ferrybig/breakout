@@ -136,9 +136,9 @@ var Menu = (function () {
 				selectedLevel = level;
 			},
 			x: i % 2 === 0 ? 250 : 400,
-			y: Math.floor(i / 2) * 60 + 300,
+			y: Math.floor(i / 2) * 50 + 290,
 			width: 140,
-			height: 50,
+			height: 40,
 			text: level.name,
 			selectedText: 'Selected',
 			isEnabled: function() {

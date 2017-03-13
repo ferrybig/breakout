@@ -3,6 +3,7 @@
 'use strict';
 var Bricks = (function () {
 	var bricks = [];
+	var slowLoad = 0;
 
 	var _removeBrick = function (index) {
 		bricks.splice(index, 1);
@@ -41,17 +42,39 @@ var Bricks = (function () {
 	};
 
 	var draw = function (graphics) {
-		forEach(function (brick) {
+		if (slowLoad === undefined) {
+			forEach(function (brick) {
+				graphics.fillStyle = brick.getColor();
+				graphics.fillRect(brick.getX() - brick.getSizeX() + 1, brick.getY() - brick.getSizeY() + 1,
+						brick.getSizeX() * 2 - 2, brick.getSizeY() * 2 - 2);
+			});
+			return;
+		}
+		slowLoad += 4;
+		var looped = forEach(function (brick) {
 			graphics.fillStyle = brick.getColor();
 			graphics.fillRect(brick.getX() - brick.getSizeX() + 1, brick.getY() - brick.getSizeY() + 1,
 					brick.getSizeX() * 2 - 2, brick.getSizeY() * 2 - 2);
-		});
+		}, slowLoad);
+		if (slowLoad !== looped) {
+			slowLoad = undefined;
+		}
 	};
 
-	var forEach = function (callback) {
-		for (var i = 0; i < bricks.length; i++) {
-			callback(bricks[i]);
+	var forEach = function (callback, max) {
+		var length = bricks.length;
+		if (max !== undefined) {
+			length = Math.min(max, length);
 		}
+		for (var i = 0; i < length; i++) {
+			if(bricks[i])
+				callback(bricks[i]);
+		}
+		return i;
+	};
+
+	var resetSlowLoad = function () {
+		slowLoad = 0;
 	};
 
 	var clear = function () {
@@ -71,7 +94,8 @@ var Bricks = (function () {
 		addBrick: addBrick,
 		clear: clear,
 		forEach: forEach,
-		size: size
+		size: size,
+		resetSlowLoad: resetSlowLoad,
 	};
 	return self;
 })();

@@ -30,7 +30,7 @@ var Level = (function () {
 	};
 	var rowsLevel = function () {
 		return _generateLevel("rows", function (x, y) {
-			return x % 3 === 0;
+			return y % 3 === 0;
 		});
 	};
 	var columnsLevel = function () {
@@ -53,6 +53,11 @@ var Level = (function () {
 			return x % 4 < 2 && y % 4 < 2;
 		});
 	};
+	var butterflyLevel = function () {
+		return _generateLevel("butterfly", function (x, y, nx, ny) {
+			return Math.pow(nx/2, 2)+Math.pow(5*-ny/4-Math.sqrt(Math.abs(nx)),2)<0.6;
+		});
+	};
 	var getAll = function () {
 		var all = [];
 		for (var i in self) {
@@ -70,6 +75,7 @@ var Level = (function () {
 		ballLevel: ballLevel,
 		squareLevel: squareLevel,
 		islandLevel: islandLevel,
+		butterflyLevel: butterflyLevel,
 		getAll: getAll
 	};
 	return self;
