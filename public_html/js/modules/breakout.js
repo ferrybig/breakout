@@ -1,4 +1,4 @@
-/* global Paddle, Bricks, Particle, Ball, Score, Menu */
+/* global Paddle, Bricks, Particle, Ball, Score, Menu, Background */
 
 'use strict';
 var Breakout = (function () {
@@ -15,20 +15,20 @@ var Breakout = (function () {
 
 	var draw = function (graphics) {
 		//console.log("Draw!");
+		
+		if (started) {
+			Background.draw(graphics);
 
-		graphics.fillStyle = "#000";
-		graphics.fillRect(0, 0, graphics.canvas.width, graphics.canvas.height);
+			Paddle.draw(graphics);
 
-		Paddle.draw(graphics);
+			Bricks.draw(graphics);
 
-		Bricks.draw(graphics);
+			Particle.draw(graphics);
 
-		Particle.draw(graphics);
+			Ball.draw(graphics);
 
-		Ball.draw(graphics);
-
-		Score.draw(graphics);
-
+			Score.draw(graphics);
+		}
 		Menu.draw(graphics);
 		//console.log("Draw done!");
 	};
