@@ -1,5 +1,7 @@
+/* global Score, Breakout, Paddle, Powerup, Particle, Bricks */
+
 'use strict';
-var Ball = (function(){
+var Ball = (function () {
 	var x = undefined;
 	var y = undefined;
 	var velocityX = undefined;
@@ -8,50 +10,50 @@ var Ball = (function(){
 	var sizeY = 10;
 	var destroyed = false;
 	var rawSpeed = 0;
-		
-	var getX = function() {
+
+	var getX = function () {
 		return x;
 	};
-	var getY = function() {
+	var getY = function () {
 		return y;
 	};
-	
-	var getVelocityX = function() {
+
+	var getVelocityX = function () {
 		return velocityX;
 	};
-	var getVelocityY = function() {
+	var getVelocityY = function () {
 		return velocityY;
 	};
-	var setVelocityX = function(setVelocityX) {
+	var setVelocityX = function (setVelocityX) {
 		velocityX = setVelocityX;
 	};
-	var setVelocityY = function(setVelocityY) {
+	var setVelocityY = function (setVelocityY) {
 		velocityY = setVelocityY;
 	};
-	
-	var getRawSpeed = function() {
+
+	var getRawSpeed = function () {
 		return rawSpeed;
 	};
-	var setRawSpeed = function(setRawSpeed) {
+	var setRawSpeed = function (setRawSpeed) {
 		rawSpeed = setRawSpeed;
 	};
-	
-	var setBallSize = function(setBallSize) {
+
+	var setBallSize = function (setBallSize) {
 		sizeX = sizeY = setBallSize;
 	};
-	
-	var getSizeX = function() {
+
+	var getSizeX = function () {
 		return sizeX;
 	};
-	var getSizeY = function() {
+	var getSizeY = function () {
 		return sizeY;
 	};
-	
-	var isDestroyed = function() {
+
+	var isDestroyed = function () {
 		return destroyed;
 	};
-	
-	var respawn = function() {
+
+	var respawn = function () {
 		x = 400;
 		y = 430;
 		velocityX = 0.05;
@@ -59,8 +61,8 @@ var Ball = (function(){
 		destroyed = false;
 		rawSpeed = 2.5;
 	};
-	
-	var draw = function(graphics) {
+
+	var draw = function (graphics) {
 		graphics.strokeStyle = "#CCBBAA";
 		graphics.fillStyle = "#CCBBAA";
 		graphics.beginPath();
@@ -75,40 +77,40 @@ var Ball = (function(){
 		graphics.closePath();
 		graphics.fill();
 	};
-	
-	var update = function() {
-		if(destroyed)
+
+	var update = function () {
+		if (destroyed)
 			return;
-		
+
 		// Update position
 		x += velocityX;
 		y += velocityY;
-		
+
 		// Handle collisions with bricks
 		var appendixDeletions = [];
 		var initialVelocityX = velocityX;
 		var initialVelocityY = velocityY;
 		var collisions = 0;
-		Bricks.forEach(function(brick){
+		Bricks.forEach(function (brick) {
 			var dX = Math.abs(brick.getX() - x) - brick.getSizeX() - sizeX;
 			var dY = Math.abs(brick.getY() - y) - brick.getSizeY() - sizeY;
-			if(dX < 0 && dY < 0) {
+			if (dX < 0 && dY < 0) {
 				brick.registerImpact();
 				collisions++;
-				if(!Powerup.isActivated("flythru")) {
+				if (!Powerup.isActivated("flythru")) {
 					var updateX = false, updateY = false;
-					if(Math.abs(dX - dY) < 5) {
+					if (Math.abs(dX - dY) < 5) {
 						updateX = true;
 						updateY = true;
-					} else if(dX < dY) {
-						updateY = true
+					} else if (dX < dY) {
+						updateY = true;
 					} else {
 						updateX = true;
 					}
-					if(updateY && !((initialVelocityY < 0) ^ (brick.getY() - y < 0))) {
+					if (updateY && !((initialVelocityY < 0) ^ (brick.getY() - y < 0))) {
 						velocityY = -initialVelocityY;
 					}
-					if(updateX && !((initialVelocityX < 0) ^ (brick.getX() - x < 0))) {
+					if (updateX && !((initialVelocityX < 0) ^ (brick.getX() - x < 0))) {
 						velocityX = -initialVelocityX;
 					}
 				}
@@ -116,11 +118,12 @@ var Ball = (function(){
 				appendixDeletions.push(brick);
 			}
 		});
-		if(collisions > 0) {
-			if(Powerup.isActivated("exploding")) {
+		if (collisions > 0) {
+			if (Powerup.isActivated("exploding")) {
 				Particle.addExplodingParticle(x, y, 4);
-			Score.addScore(Math.pow(1.1, collisions) - 1.1);}
-			for(var i = 0; i < appendixDeletions.length; i++) {
+				Score.addScore(Math.pow(1.1, collisions) - 1.1);
+			}
+			for (var i = 0; i < appendixDeletions.length; i++) {
 				appendixDeletions[i].registerImpact();
 				collisions++;
 			}
@@ -128,26 +131,26 @@ var Ball = (function(){
 		// Handle paddle impact
 		var dX = Math.abs(Paddle.getX() - x) - Paddle.getSizeX() - sizeX;
 		var dY = Math.abs(Paddle.getY() - y) - Paddle.getSizeY() - sizeY;
-		if(dX < 0 && dY < 0) {
+		if (dX < 0 && dY < 0) {
 			// The paddle will handle the bounce from here...
 			Paddle.registerImpact();
 		}
 		// Handle ball bouncing to the edges of the board
-		if(x - sizeX < 0 && velocityX < 0) {
+		if (x - sizeX < 0 && velocityX < 0) {
 			velocityX = -velocityX;
 		}
-		if(y - sizeY < 0 && velocityY < 0) {
+		if (y - sizeY < 0 && velocityY < 0) {
 			velocityY = -velocityY;
 		}
-		if(x + sizeX > Breakout.getSizeX() && velocityX > 0) {
+		if (x + sizeX > Breakout.getSizeX() && velocityX > 0) {
 			velocityX = -velocityX;
 		}
-		if(y + sizeY > Breakout.getSizeY() && velocityY > 0) {
+		if (y + sizeY > Breakout.getSizeY() && velocityY > 0) {
 			destroyed = true;
 			Score.ballDestroyed();
 		}
 	};
-	
+
 	respawn();
 	var self = {
 		getX: getX,
@@ -164,7 +167,7 @@ var Ball = (function(){
 		respawn: respawn,
 		getRawSpeed: getRawSpeed,
 		setRawSpeed: setRawSpeed,
-		setBallSize: setBallSize,
+		setBallSize: setBallSize
 	};
 	return self;
 })();
