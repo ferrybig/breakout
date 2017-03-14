@@ -38,6 +38,8 @@ var Breakout = (function () {
 		if (started) {
 			Background.update();
 			
+			Ai.update();
+			
 			Paddle.update();
 
 			Bricks.update();

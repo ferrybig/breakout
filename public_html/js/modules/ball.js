@@ -167,7 +167,7 @@ var Ball = (function () {
 			}
 		}
 
-		if( -0.3 < velocityY && velocityY < 0.3 ) {
+		if( -0.3 < velocityY && velocityY < 0.3 && velocityX !== 0 && velocityY !== 0) {
 			console.log("Speed to slow!! Adjusting");
 			velocityY += 0.01;
 			velocityY *= 1.01;
