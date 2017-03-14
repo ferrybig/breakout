@@ -36,6 +36,8 @@ var Breakout = (function () {
 	var update = function () {
 		//console.log("Update!");
 		if (started) {
+			Background.update();
+			
 			Paddle.update();
 
 			Bricks.update();
@@ -66,7 +68,7 @@ var Breakout = (function () {
 			Bricks.addBrick(level.bricks[i].x, level.bricks[i].y, level.bricks[i].color);
 		}
 		Bricks.resetSlowLoad();
-		Bricks.forEach(console.log);
+		Background.setTotalBricks(Bricks.size());
 	};
 
 	var self = {

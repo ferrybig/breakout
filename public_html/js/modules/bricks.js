@@ -4,6 +4,7 @@
 var Bricks = (function () {
 	var bricks = [];
 	var slowLoad = 0;
+	var lastDestroyedBrick = false;
 
 	var _removeBrick = function (index) {
 		bricks.splice(index, 1);
@@ -11,6 +12,7 @@ var Bricks = (function () {
 		for (var i = index; i < bricks.length; i++) {
 			bricks[i].key = i;
 		}
+		lastDestroyedBrick = true;
 	};
 
 	var addBrick = function (x, y, color) {
@@ -66,11 +68,16 @@ var Bricks = (function () {
 		if (max !== undefined) {
 			length = Math.min(max, length);
 		}
-		for (var i = 0; i < length; i++) {
-			if(bricks[i])
-				callback(bricks[i]);
+		var total = 0;
+		for (var i = 0; i < length; i++, total++) {
+			callback(bricks[i]);
+			if(lastDestroyedBrick) {
+				i--;
+				length--;
+				lastDestroyedBrick = false;
+			}
 		}
-		return i;
+		return total;
 	};
 
 	var resetSlowLoad = function () {
@@ -82,7 +89,7 @@ var Bricks = (function () {
 	};
 
 	var size = function () {
-		return size;
+		return bricks.length;
 	};
 
 	var update = function () {

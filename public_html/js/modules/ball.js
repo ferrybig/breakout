@@ -90,28 +90,31 @@ var Ball = (function () {
 		var appendixDeletions = [];
 		var initialVelocityX = velocityX;
 		var initialVelocityY = velocityY;
+		var velocitySpeed = Math.sqrt(initialVelocityX * initialVelocityX + initialVelocityY * initialVelocityY);
+		var convertedVelocityX = velocityX / 10;
+		var convertedVelocityY = velocityY / 10;
 		var collisions = 0;
 		Bricks.forEach(function (brick) {
 			var dX = Math.abs(brick.getX() - x) - brick.getSizeX() - sizeX;
 			var dY = Math.abs(brick.getY() - y) - brick.getSizeY() - sizeY;
 			if (dX < 0 && dY < 0) {
+				dX += sizeX;
+				dY += sizeY;
+				if(dX > 0 && dY > 0 && sizeX * sizeY < Math.max(0, dX) * dX + Math.max(0, dY) * dY) {
+					console.log("Impact rejected because the cube/square format");
+					return;
+				}
+				dX -= sizeX;
+				dY -= sizeY;
 				brick.registerImpact();
 				collisions++;
 				if (!Powerup.isActivated("flythru")) {
-					var updateX = false, updateY = false;
-					if (Math.abs(dX - dY) < 5) {
-						updateX = true;
-						updateY = true;
-					} else if (dX < dY) {
-						updateY = true;
+					if (dY < dX) {
+						convertedVelocityX += -initialVelocityX;
+						convertedVelocityY += initialVelocityY;
 					} else {
-						updateX = true;
-					}
-					if (updateY && !((initialVelocityY < 0) ^ (brick.getY() - y < 0))) {
-						velocityY = -initialVelocityY;
-					}
-					if (updateX && !((initialVelocityX < 0) ^ (brick.getX() - x < 0))) {
-						velocityX = -initialVelocityX;
+						convertedVelocityX += initialVelocityX;
+						convertedVelocityY += -initialVelocityY;
 					}
 				}
 			} else if (Powerup.isActivated("exploding") && dX < 20 && dY < 20) {
@@ -119,9 +122,19 @@ var Ball = (function () {
 			}
 		});
 		if (collisions > 0) {
+			convertedVelocityX /= collisions; 
+			convertedVelocityY /= collisions; 
+			var convertedSpeed = Math.sqrt(convertedVelocityX * convertedVelocityX + convertedVelocityY * convertedVelocityY);
+			convertedVelocityX *= velocitySpeed;
+			convertedVelocityY *= velocitySpeed;
+			convertedVelocityX /= convertedSpeed;
+			convertedVelocityY /= convertedSpeed;
+			velocityX = convertedVelocityX;
+			velocityY = convertedVelocityY;
+
+			Score.addScore(Math.pow(1.1, collisions) - 1.1);
 			if (Powerup.isActivated("exploding")) {
 				Particle.addExplodingParticle(x, y, 4);
-				Score.addScore(Math.pow(1.1, collisions) - 1.1);
 			}
 			for (var i = 0; i < appendixDeletions.length; i++) {
 				appendixDeletions[i].registerImpact();
@@ -146,8 +159,18 @@ var Ball = (function () {
 			velocityX = -velocityX;
 		}
 		if (y + sizeY > Breakout.getSizeY() && velocityY > 0) {
-			destroyed = true;
-			Score.ballDestroyed();
+			if(Powerup.isActivated("god")) {
+				velocityY = -velocityY;
+			} else {
+				destroyed = true;
+				Score.ballDestroyed();
+			}
+		}
+
+		if( -0.3 < velocityY && velocityY < 0.3 ) {
+			console.log("Speed to slow!! Adjusting");
+			velocityY += 0.01;
+			velocityY *= 1.01;
 		}
 	};
 

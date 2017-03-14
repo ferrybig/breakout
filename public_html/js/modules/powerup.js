@@ -2,7 +2,8 @@ var Powerup = (function () {
 	var powers = {
 		flythru: false,
 		holdball: false,
-		exploding: false
+		exploding: false,
+		god: false
 	};
 
 	var isActivated = function (power) {

@@ -58,6 +58,11 @@ var Level = (function () {
 			return Math.pow(nx/2, 2)+Math.pow(5*-ny/4-Math.sqrt(Math.abs(nx)),2)<0.6;
 		});
 	};
+	var holesLevel = function () {
+		return _generateLevel("holesLevel", function (x, y, nx, ny) {
+			return Math.sin(nx * Math.PI * 2) < ny;
+		});
+	};
 	var getAll = function () {
 		var all = [];
 		for (var i in self) {
@@ -76,6 +81,7 @@ var Level = (function () {
 		squareLevel: squareLevel,
 		islandLevel: islandLevel,
 		butterflyLevel: butterflyLevel,
+		holesLevel: holesLevel,
 		getAll: getAll
 	};
 	return self;
