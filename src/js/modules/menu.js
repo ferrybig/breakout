@@ -1,5 +1,6 @@
 /* global Level, Breakout */
 
+'use strict';
 var Menu = (function () {
 	var paused = true;
 	var hasGame = false;
@@ -81,8 +82,8 @@ var Menu = (function () {
 		}
 		for (var i = 0; i < buttons.length; i++) {
 			var button = buttons[i];
-			if (button.x <= mouseX && button.x + button.width > mouseX
-					&& button.y <= mouseY && button.y + button.height > mouseY) {
+			if (button.x <= mouseX && button.x + button.width > mouseX &&
+					button.y <= mouseY && button.y + button.height > mouseY) {
 
 				console.log("pressed " + buttons[i].text);
 				if (!button.isEnabled || button.isEnabled()) {
@@ -90,7 +91,6 @@ var Menu = (function () {
 				}
 			}
 		}
-		newMousePressed = false;
 	};
 
 	var startNewGame = function () {
@@ -129,10 +129,9 @@ var Menu = (function () {
 		text: 'New game'
 	});
 	var levels = Level.getAll();
-	for (var i = 0; i < levels.length; i++) {
-		console.log(levels[i]);
-		buttons.push(function(level) {return {
-			callback: function() {
+	var makeLevel = function (level) {
+		return {
+			callback: function () {
 				selectedLevel = level;
 			},
 			x: i % 2 === 0 ? 250 : 400,
@@ -141,10 +140,13 @@ var Menu = (function () {
 			height: 40,
 			text: level.name,
 			selectedText: 'Selected',
-			isEnabled: function() {
+			isEnabled: function () {
 				return selectedLevel.name !== level.name;
 			}
-		};}(levels[i]));
+		};
+	};
+	for (var i = 0; i < levels.length; i++) {
+		buttons.push(makeLevel(levels[i]));
 	}
 
 

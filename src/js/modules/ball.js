@@ -2,10 +2,10 @@
 
 'use strict';
 var Ball = (function () {
-	var x = undefined;
-	var y = undefined;
-	var velocityX = undefined;
-	var velocityY = undefined;
+	var x;
+	var y;
+	var velocityX;
+	var velocityY;
 	var sizeX = 10;
 	var sizeY = 10;
 	var destroyed = false;

@@ -1,5 +1,6 @@
 /* global Ball, Paddle */
 
+'use strict';
 var Score = (function () {
 	var score = 0;
 	var pointsCounter = 0;
@@ -46,10 +47,11 @@ var Score = (function () {
 	var update = function () {
 		if (pointsCounter === 0)
 			return;
+		var pointAdjustment;
 		if (pointsCounter > 100) {
-			var pointAdjustment = Math.pow(10, Math.floor(Math.log(pointsCounter) / Math.log(10)) - 1);
+			pointAdjustment = Math.pow(10, Math.floor(Math.log(pointsCounter) / Math.log(10)) - 1);
 		} else {
-			var pointAdjustment = pointsCounter;
+			pointAdjustment = pointsCounter;
 		}
 
 		score += pointAdjustment;

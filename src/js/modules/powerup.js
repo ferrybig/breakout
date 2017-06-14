@@ -1,3 +1,4 @@
+'use strict';
 var Powerup = (function () {
 	var powers = {
 		flythru: false,

@@ -13,8 +13,8 @@ var Background = (function(){
 		saturation: 30
 	};
 	var total = 1;
-	var lastGradient = undefined;
-	var lastGradientColor = undefined;
+	var lastGradient;
+	var lastGradientColor;
 	
 	var setTotalBricks = function(setTotal) {
 		total = setTotal;

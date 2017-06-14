@@ -3,9 +3,9 @@
 'use strict';
 var Canvas = (function () {
 
-	var canvas = undefined;
-	var graphics = undefined;
-	var lastFrameTime = undefined;
+	var canvas;
+	var graphics;
+	var lastFrameTime;
 	var targetPhysicsRate = 1000 / 60; // Run physics at 60 TPS
 	var targetFrameRate = 1000 / 60; // Run frames at 60 FPS
 	var mouseDown = false;
@@ -15,10 +15,10 @@ var Canvas = (function () {
 	 *  get higher performance, by not blocking the browser when its trying to
 	 *  render a frame
 	 */
-	var _requestAnimFrame = window.requestAnimationFrame
-			|| window.webkitRequestAnimationFrame
-			|| window.mozRequestAnimationFrame
-			|| function (callback) {
+	var _requestAnimFrame = window.requestAnimationFrame ||
+			window.webkitRequestAnimationFrame ||
+			window.mozRequestAnimationFrame ||
+			function (callback) {
 				window.setTimeout(callback, targetFrameRate);
 			};
 

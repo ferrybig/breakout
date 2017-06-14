@@ -11,7 +11,7 @@ var Particle = (function () {
 					brickParticles[i].sizeX * 2 - 2,
 					brickParticles[i].sizeY * 2 - 2);
 		}
-		for (var i = 0; i < explodeParticles.length; i++) {
+		for (i = 0; i < explodeParticles.length; i++) {
 			graphics.fillStyle = explodeParticles[i].color;
 			graphics.beginPath();
 			graphics.moveTo(explodeParticles[i].x, explodeParticles[i].y);
@@ -34,7 +34,7 @@ var Particle = (function () {
 		while (explodeParticles.length !== 0 && explodeParticles[0].ttl < 0) {
 			explodeParticles.pop();
 		}
-		for (var i = 0; i < explodeParticles.length; i++) {
+		for (i = 0; i < explodeParticles.length; i++) {
 			explodeParticles[i].ttl--;
 			explodeParticles[i].x += explodeParticles[i].vx;
 			explodeParticles[i].y += explodeParticles[i].vy;

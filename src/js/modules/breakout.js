@@ -1,4 +1,4 @@
-/* global Paddle, Bricks, Particle, Ball, Score, Menu, Background */
+/* global Paddle, Bricks, Particle, Ball, Score, Menu, Background, Ai */
 
 'use strict';
 var Breakout = (function () {

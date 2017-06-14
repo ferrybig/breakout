@@ -14,7 +14,7 @@ var Paddle = (function () {
 	var bounceSpeed = 7;
 
 	// This will be set to undefined to indicate that the last mouse position is used already
-	var mouseX = undefined;
+	var mouseX;
 
 	// Speed of the keyboard presses
 	var keyboardDirection = 0;
