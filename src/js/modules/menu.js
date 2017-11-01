@@ -1,4 +1,4 @@
-/* global Level, Breakout */
+/* global Level, Breakout, Score */
 
 'use strict';
 var Menu = (function () {
@@ -98,6 +98,7 @@ var Menu = (function () {
 		paused = false;
 		Breakout.loadLevel(selectedLevel);
 		Breakout.start();
+		Score.reset();
 	};
 
 	var mouseUpdate = function (newMouseX, newMouseY, newMousePressed) {
