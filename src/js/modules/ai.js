@@ -18,7 +18,7 @@ var Ai = (function() {
 				targetX = 0 - targetX;
 			}
 			if(targetX > 800) {
-				targetX = 800 - targetX;
+				targetX = (800 - targetX) + 800;
 			}
 		}
 		var yDifference = Math.max(200 - (Paddle.getY() - Ball.getY() - Paddle.getSizeY()), 0) / 3;
