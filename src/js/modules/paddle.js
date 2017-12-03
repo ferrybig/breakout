@@ -37,6 +37,13 @@ var Paddle = (function () {
 		return sizeY;
 	};
 
+	var setSizeX = function (size) {
+		sizeX = size;
+	};
+	var setSizeY = function (size) {
+		sizeY = size;
+	};
+
 	var setMouse = function (setMouse, hasClickedMouse) {
 		mouseX = setMouse;
 		clickedMouse = hasClickedMouse;
@@ -150,6 +157,8 @@ var Paddle = (function () {
 		getY: getY,
 		getSizeX: getSizeX,
 		getSizeY: getSizeY,
+		setSizeX: setSizeX,
+		setSizeY: setSizeY,
 		update: update,
 		registerImpact: registerImpact,
 		draw: draw,
