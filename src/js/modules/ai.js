@@ -21,7 +21,7 @@ var Ai = (function() {
 				targetX = (800 - targetX) + 800;
 			}
 		}
-		var yDifference = Math.max(200 - (Paddle.getY() - Ball.getY() - Paddle.getSizeY()), 0) / 3;
+		var yDifference = Math.max(300 - (Paddle.getY() - Ball.getY() - Paddle.getSizeY()), 0) / 2;
 		var difference = x - targetX;
 		if(difference < -yDifference) {
 			difference = -yDifference;
