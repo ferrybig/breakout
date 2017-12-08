@@ -48,6 +48,11 @@ var Level = (function () {
 			return Math.max(nx * nx, ny * ny) < 0.25;
 		});
 	};
+	var inversedCircleLevel = function () {
+		return _generateLevel("inversedCircle", function (x, y, nx, ny) {
+			return nx * nx + ny * ny > 0.5;
+		});
+	};
 	var islandLevel = function () {
 		return _generateLevel("island", function (x, y, nx, ny) {
 			return x % 4 < 2 && y % 4 < 2;
@@ -82,6 +87,7 @@ var Level = (function () {
 		islandLevel: islandLevel,
 		butterflyLevel: butterflyLevel,
 		holesLevel: holesLevel,
+		inversedCircleLevel: inversedCircleLevel,
 		getAll: getAll
 	};
 	return self;
