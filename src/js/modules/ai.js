@@ -8,24 +8,24 @@ var Ai = (function() {
 	var targetX = 400;
 	
 	var update = function() {
-		if(!working) {
+		if (!working) {
 			return;
 		}
 		x += change;
 		targetX = Ball.getX() + Ball.getVelocityX() * ((Ball.getY() - Paddle.getY() - Paddle.getSizeY()) / -Math.abs(Ball.getVelocityY())) + Paddle.getSizeX() / (Ball.getVelocityX() < 0 ? 1.6 : -1.6);
-		while(targetX < 0 || 800 < targetX) {
-			if(targetX < 0) {
+		while (targetX < 0 || 800 < targetX) {
+			if (targetX < 0) {
 				targetX = 0 - targetX;
 			}
-			if(targetX > 800) {
+			if (targetX > 800) {
 				targetX = (800 - targetX) + 800;
 			}
 		}
 		var yDifference = Math.max(300 - (Paddle.getY() - Ball.getY() - Paddle.getSizeY()), 0) / 2;
 		var difference = x - targetX;
-		if(difference < -yDifference) {
+		if (difference < -yDifference) {
 			difference = -yDifference;
-		} else if(difference > yDifference) {
+		} else if (difference > yDifference) {
 			difference = yDifference;
 		}
 		change -= difference;
